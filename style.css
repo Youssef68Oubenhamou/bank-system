@@ -145,7 +145,6 @@ main section .description button {
     font-size: 17px;
     font-weight: bold;
     color: rgba(9, 9, 131, 0.87);
-    /* position: absolute; */
     margin-top: 15%;
 
 }
@@ -162,7 +161,7 @@ main section .description p {
 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: normal;
-    color: rgb(99, 94, 94);
+    color: rgb(49, 47, 47);
     cursor: pointer;
 
 }
@@ -184,6 +183,10 @@ main section .articles article {
     border-bottom: 4px solid black;
     border-right: 4px solid black;
     border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 40vh;
+    align-content: center;
 
 }
 
@@ -194,8 +197,11 @@ main section .articles article .header {
     justify-content: space-around;
     align-items: center;
     align-content: center;
-    width: 90%;
-    padding: 10px;
+    width: 95%;
+    margin-top: 0%;
+    padding-right: 10px;
+    padding-left: 10px;
+    height: 30%;
 
 }
 
@@ -203,6 +209,7 @@ main section .articles article .header p {
 
     padding-left: 10px;
     padding-right: 10px;
+    font-weight: bold;
 
 }
 
@@ -211,6 +218,10 @@ main section .articles article .article-desc {
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 20px;
+    color: rgb(49, 47, 47);
+    width: 95%;
+    height: 70%;
+    align-content: center;
 
 }
 
