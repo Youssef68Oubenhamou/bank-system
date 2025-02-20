@@ -157,3 +157,12 @@ main section .description button:active {
     background-color: rgba(255, 228, 196, 0.144);
 
 }
+
+main section .description p {
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: normal;
+    color: rgb(99, 94, 94);
+    cursor: pointer;
+
+}
