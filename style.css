@@ -166,3 +166,58 @@ main section .description p {
     cursor: pointer;
 
 }
+
+main section .articles {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+
+}
+
+main section .articles article {
+
+    background-color: white;
+    width: 25%;
+    border: 2px solid black;
+    border-bottom: 4px solid black;
+    border-right: 4px solid black;
+    border-radius: 12px;
+
+}
+
+main section .articles article .header {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+    width: 90%;
+    padding: 10px;
+
+}
+
+main section .articles article .header p {
+
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+
+main section .articles article .article-desc {
+
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+
+}
+
+main section .articles article .header .fa-solid {
+
+    background-color: greenyellow;
+    padding: 5px;
+    border-radius: 5px;
+
+}
