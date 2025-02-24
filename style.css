@@ -68,6 +68,13 @@ header nav ul li button {
 
 }
 
+header nav ul li button a {
+
+    text-decoration: none;
+    color: rgba(9, 9, 131, 0.87);
+
+}
+
 header nav ul li button:active {
 
     border: 2px solid black;
@@ -89,6 +96,10 @@ header nav .logo p , header nav ul li button {
 main {
 
     height: 100vh;
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
 }
 
@@ -121,6 +132,19 @@ main section .description {
 
 }
 
+main section .description .fas {
+
+    background-color: greenyellow;
+    width: 45px;
+    height: 45px;
+    align-content: center;
+    align-self: center;
+    border: 3px solid black;
+    border-radius: 5px;
+    margin-top: -5%;
+
+}
+
 main section .description p {
 
     position: absolute;
@@ -145,7 +169,7 @@ main section .description button {
     font-size: 17px;
     font-weight: bold;
     color: rgba(9, 9, 131, 0.87);
-    margin-top: 15%;
+    margin-top: 10%;
 
 }
 
@@ -172,6 +196,7 @@ main section .articles {
     flex-direction: row;
     justify-content: space-around;
     width: 100%;
+    flex-wrap: nowrap;
 
 }
 
