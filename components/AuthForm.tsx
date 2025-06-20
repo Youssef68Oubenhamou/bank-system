@@ -10,12 +10,6 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import {
     Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import CustomInput from './CustomInput';
@@ -114,11 +108,11 @@ const AuthForm = ({ type }: { type: string }) => {
                     </h1>
                 </div>
             </header>
-            {/* {user ? (*/}
+            {user ? (
                 <div className="flex flex-col gap-4">
                     <PlaidLink user={ user } variant="primary" />
                 </div>
-            {/*): ( */}
+            ): ( 
                 <>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -170,7 +164,7 @@ const AuthForm = ({ type }: { type: string }) => {
                     </Link>
                 </footer>
                 </>
-            {/* )} */}
+            )}
         </section>
     )
 }

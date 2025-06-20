@@ -1,4 +1,6 @@
 import { Configuration , PlaidApi , PlaidEnvironments } from "plaid";
+import dotenv from "dotenv";
+dotenv.config();
 
 const configuration = new Configuration({
 
