@@ -211,7 +211,7 @@
   }
 
   .transactions-account-balance {
-    @apply flex-center flex-col  gap-2 rounded-md bg-blue-25/20 px-4 py-2 text-white;
+    @apply flex-center flex-col  gap-2 rounded-md bg-blue-300 px-4 py-2 text-white;
   }
 
   .header-box {
@@ -307,7 +307,7 @@
 
   /* Payment Transfer */
   .payment-transfer {
-    @apply no-scrollbar flex flex-col overflow-y-scroll bg-gray-25 p-8 md:max-h-screen xl:py-12;
+    @apply no-scrollbar flex flex-col overflow-y-scroll bg-gray-300 p-8 md:max-h-screen xl:py-12;
   }
 
   .payment-transfer_form-item {
@@ -327,7 +327,7 @@
   }
 
   .payment-transfer_btn {
-    @apply text-14 w-full bg-bank-gradient font-semibold text-white shadow-form !important;
+    @apply text-14 w-full bg-blue-500 font-semibold text-white shadow-md !important;
   }
 
   /* Root Layout */

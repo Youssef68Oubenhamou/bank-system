@@ -14,6 +14,7 @@ import { parseStringify } from "../utils";
 
 // import { getTransactionsByBankId } from "./transaction.actions";
 import { getBanks, getBank } from "./user.actions";
+// import { getTransactionsByBankId } from "./transaction.actions";
 
 // Get multiple bank accounts
 export const getAccounts = async ({ userId }: getAccountsProps) => {
@@ -69,6 +70,11 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
         // get bank from db
         const bank = await getBank({ documentId: appwriteItemId });
 
+        if (!bank || !bank.accessToken) {
+            console.warn("No valid bank or access token — skipping Plaid call.");
+            return null; // or redirect to login, or show empty state
+        }
+
         // get account info from plaid
         const accountsResponse = await plaidClient.accountsGet({
             access_token: bank.accessToken,
@@ -77,7 +83,7 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
 
         // get transfer transactions from appwrite
         // const transferTransactionsData = await getTransactionsByBankId({
-        //     bankId: bank.$id,
+        //     bankId: bank?.$id,
         // });
 
         // const transferTransactions = transferTransactionsData.documents.map(
@@ -119,10 +125,11 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
         //     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         // );
 
-        // return parseStringify({
-        //     data: account,
-        //     transactions: allTransactions,
-        // });
+        return parseStringify({
+            data: account,
+            // transactions: allTransactions,
+            transactions: transactions
+        });
     } catch (error) {
         console.error("An error occurred while getting the account:", error);
     }
@@ -183,8 +190,7 @@ export const getTransactions = async ({
         }
 
         return parseStringify(transactions);
-    } catch (error: any) {
-        console.error('Plaid error:', error.response?.data || error.message);
-        throw error;
+    } catch (err: any) {
+        console.log('Plaid error:', err.response?.data || err.message);
     }
 };

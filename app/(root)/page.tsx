@@ -4,8 +4,15 @@ import React from 'react'
 import RightSidebar from '@/components/RightSidebar';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
+import RecentTransactions from '@/components/RecentTransactions';
 
-const Home = async ({ searchParams: {id , page} }: SearchParamProps) => {
+const Home = async (props: SearchParamProps) => {
+    const searchParams = await props.searchParams;
+
+    const {
+        id,
+        page
+    } = searchParams;
 
     const loggedIn = await getLoggedInUser();
 
@@ -13,7 +20,7 @@ const Home = async ({ searchParams: {id , page} }: SearchParamProps) => {
 
     if (!accounts) return;
 
-    const accountsData = accounts?.data[0];
+    const accountsData = accounts?.data;
 
     const appwriteItemId = (id as string) || accounts?.data[0]?.appwriteItemId;
 
@@ -37,7 +44,12 @@ const Home = async ({ searchParams: {id , page} }: SearchParamProps) => {
                     />
                     
                 </header>
-                RECENT
+                <RecentTransactions 
+                    accounts={accountsData}
+                    transactions={account?.transactions}
+                    appwriteItemId={appwriteItemId}
+                    page={4}
+                />
             </div>
             <RightSidebar
                 user={loggedIn}

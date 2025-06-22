@@ -208,8 +208,8 @@ export const createBankAccount = async ({
 }
 
 export const exchangePublicToken = async ({
-  publicToken,
-  user,
+    publicToken,
+    user,
 }: exchangePublicTokenProps) => {
     try {
         // Exchange public token for access token and item ID
@@ -276,6 +276,12 @@ export const getBanks = async ({ userId }: getBanksProps) => {
     try {
         const { database } = await createAdminClient();
 
+        if (!userId) {
+
+            return [];
+
+        }
+
         const banks = await database.listDocuments(
             DATABASE_ID!,
             BANK_COLLECTION_ID!,
@@ -294,11 +300,45 @@ export const getBank = async ({ documentId }: getBankProps) => {
     try {
         const { database } = await createAdminClient();
 
+        if (!documentId) {
+
+            return [];
+
+        }
+
         const bank = await database.listDocuments(
             DATABASE_ID!,
             BANK_COLLECTION_ID!,
             [Query.equal('$id', [documentId])]
         )
+
+        return parseStringify(bank.documents[0]);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getBankByAccountId = async ({ accountId }: getBankByAccountIdProps) => {
+    try {
+        const { database } = await createAdminClient();
+
+        if (!accountId) {
+
+            return [];
+
+        }
+
+        const bank = await database.listDocuments(
+            DATABASE_ID!,
+            BANK_COLLECTION_ID!,
+            [Query.equal('accountId', [accountId])]
+        )
+
+        if (bank.total !== 1) {
+
+            return null;
+
+        }
 
         return parseStringify(bank.documents[0]);
     } catch (error) {
