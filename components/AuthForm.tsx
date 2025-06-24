@@ -19,7 +19,6 @@ import { useRouter } from 'next/navigation';
 import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
 import { PlaidApi } from 'plaid';
 import PlaidLink from './PlaidLink';
-// import PlaidLink from './PlaidLink';
 
 const AuthForm = ({ type }: { type: string }) => {
     const router = useRouter();

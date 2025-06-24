@@ -13,7 +13,7 @@ const BankCard = ({ account , userName , showBalance=true }: CreditCardProps) =>
                 <div className="bank-card_content">
                     <div>
                         <h1 className="text-16 semibold text-white">
-                            { userName }
+                            { account.name }
                         </h1>
                         <p className="font-ibm-plex-serif font-gray-900 text-white">
                             { formatAmount(account.currentBalance) }
@@ -22,7 +22,7 @@ const BankCard = ({ account , userName , showBalance=true }: CreditCardProps) =>
                     <article className="flex flex-col gap-2">
                         <div className="flex justify-between">
                             <h1 className="text-12 font-semibold text-white">
-                                { userName }
+                                { account.name }
                             </h1>
                             <h2 className="text-12 font-semibold text-white">
                                 ⬤⬤ / ⬤⬤
@@ -58,7 +58,7 @@ const BankCard = ({ account , userName , showBalance=true }: CreditCardProps) =>
                     className="absolute top-0 left-0"
                 />
             </Link>
-            {showBalance && <Copy title={account?.sharaebleId} />}
+            {showBalance && <Copy title={account?.shareableId} />}
 
         </div>
     )

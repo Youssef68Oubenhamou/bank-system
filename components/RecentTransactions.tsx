@@ -3,23 +3,36 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BankTabItem } from "./BankTabItem"
 import BankInfo from "./BankInfo"
 import TransactionsTable from './TransactionsTable'
-// import { Pagination } from './Pagination'
+import { Pagination } from './Pagination'
 
 const RecentTransactions = ({
-  accounts,
-  transactions=[],
-  appwriteItemId,
-  page = 1,
+    accounts,
+    transactions=[],
+    appwriteItemId,
+    page = 1,
 }: RecentTransactionsProps) => {
-    // const rowsPerPage = 10;
-    // const totalPages = Math.ceil(transactions.length / rowsPerPage);
+    const rowsPerPage = 10;
+    const totalPages = Math.ceil(transactions.length / rowsPerPage);
 
-    // const indexOfLastTransaction = page * rowsPerPage;
-    // const indexOfFirstTransaction = indexOfLastTransaction - rowsPerPage;
+    const indexOfLastTransaction = page * rowsPerPage;
+    const indexOfFirstTransaction = indexOfLastTransaction - rowsPerPage;
+    // let transactionSlices = [];
+    // let aSlice = [];
+    // for (let i = 0; i < totalPages; i++) {
 
-    // const currentTransactions = transactions?.slice(
-    //     indexOfFirstTransaction, indexOfLastTransaction
-    // )
+    //     for (let j = 0; j < rowsPerPage; j++) {
+
+    //         aSlice.push(transactions[j]);
+
+    //     }
+    //     transactionSlices.push(aSlice);
+    //     aSlice = [];
+
+    // }
+
+    const currentTransactions = transactions.slice(
+        indexOfFirstTransaction, indexOfLastTransaction
+    )
 
     return (
         <section className="recent-transactions">
@@ -59,16 +72,10 @@ const RecentTransactions = ({
                         type="full"
                     />
 
-                    <TransactionsTable transactions={transactions} />
+                    <TransactionsTable transactions={currentTransactions} />
                     
-
-                    {
-                    // totalPages > 1 && (
-                    //     <div className="my-4 w-full">
-                    //         {/* <Pagination totalPages={totalPages} page={page} /> */}
-                    //     </div>
-                    // )
-                    }
+                    <Pagination totalPages={totalPages} page={page} />
+                    
                 </TabsContent>
                 ))
                 }

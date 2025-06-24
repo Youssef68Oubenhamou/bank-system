@@ -1,3 +1,5 @@
+"use server"
+
 import TotalBalanceBox from '@/components/TotalBalanceBox';
 import HeaderBox from '@/components/HeaderBox'
 import React from 'react'
@@ -13,6 +15,8 @@ const Home = async (props: SearchParamProps) => {
         id,
         page
     } = searchParams;
+
+    const currentPage = Number(page as string) || 1;
 
     const loggedIn = await getLoggedInUser();
 
@@ -48,7 +52,7 @@ const Home = async (props: SearchParamProps) => {
                     accounts={accountsData}
                     transactions={account?.transactions}
                     appwriteItemId={appwriteItemId}
-                    page={4}
+                    page={currentPage}
                 />
             </div>
             <RightSidebar
