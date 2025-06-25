@@ -20,9 +20,9 @@ export async function createSessionClient() {
             return new Account(client);
         },
     };
-    }
+}
 
-    export async function createAdminClient() {
+export async function createAdminClient() {
     const client = new Client()
         .setEndpoint(process.env.APPWRITE_ENDPOINT!)
         .setProject(process.env.APPWRITE_PROJECT_ID!)
@@ -32,7 +32,7 @@ export async function createSessionClient() {
         get account() {
             return new Account(client);
         },
-                get database() {
+        get database() {
 
             return new Databases(client)
 

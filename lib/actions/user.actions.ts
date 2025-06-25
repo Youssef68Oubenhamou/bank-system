@@ -17,6 +17,7 @@ const {
 
 } = process.env ;
 
+// This function is Done !
 export const getUserInfo = async ({ userId }: getUserInfoProps) => {
     try {
         const { database } = await createAdminClient();
@@ -33,6 +34,7 @@ export const getUserInfo = async ({ userId }: getUserInfoProps) => {
     }
 }
 
+// This function is Done !
 export const signIn = async ({ email , password }: signInProps) => {
 
     try {
@@ -59,6 +61,7 @@ export const signIn = async ({ email , password }: signInProps) => {
 
 }
 
+// This function is Done !
 export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
     const { email , firstName , lastName } = userData;
@@ -155,6 +158,8 @@ export const logoutAccount = async () => {
  
 }
 
+//                                                   /
+// This function is made to create the Plaid token \/
 export const createLinkToken = async (user: User) => {
     try {
         const tokenParams = {
@@ -175,6 +180,7 @@ export const createLinkToken = async (user: User) => {
     }
 }
 
+// This functions is Done !
 export const createBankAccount = async ({
     userId,
     bankId,
@@ -207,6 +213,7 @@ export const createBankAccount = async ({
     }
 }
 
+// This function is done !
 export const exchangePublicToken = async ({
     publicToken,
     user,
