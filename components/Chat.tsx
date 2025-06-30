@@ -56,14 +56,13 @@ export default function Chat({ currentUserId, chatId }: { currentUserId: string,
             timestamp: new Date().toISOString()
         };
 
-        socket.emit("send-message", msgData); // realtime
-        setMessages((prev) => [...prev, msgData]); // optimistic
+        socket.emit("send-message", msgData);
+        setMessages((prev) => [...prev, msgData]);
         setMessage("");
     };
 
     return (
         <div className="flex flex-col h-[calc(100vh-4rem)] mt-8 max-w-lg mx-auto border rounded-lg shadow-sm bg-white overflow-hidden">
-            {/* Chat Messages */}
             <div className="flex-1 overflow-y-auto px-4 py-2 space-y-2 bg-gray-100">
                 {messages.map((msg, idx) => (
                 <div
@@ -86,7 +85,6 @@ export default function Chat({ currentUserId, chatId }: { currentUserId: string,
                 <div ref={bottomRef} />
             </div>
 
-            {/* Input Bar */}
             <div className="flex items-center p-2 border-t bg-white gap-2">
                 <input
                 type="text"
