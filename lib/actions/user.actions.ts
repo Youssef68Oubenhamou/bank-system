@@ -14,8 +14,56 @@ const {
     APPWRITE_DATABASE_ID : DATABASE_ID,
     APPWRITE_USER_COLLECTION_ID : USER_COLLECTION_ID,
     APPWRITE_BANK_COLLECTION_ID : BANK_COLLECTION_ID,
+    APPWRITE_CHAT_COLLECTION_ID : CHAT_COLLECTION_ID,
 
 } = process.env ;
+
+export async function isChatExist(req: Request) {
+    try {
+        const { userA, userB } = await req.json();
+
+        const { database } = await createAdminClient();
+
+        console.log("✅ Received userA:", userA);
+        console.log("✅ Received userB:", userB);
+
+        // Check if chat already exists between userA and userB
+        const existing = await database.listDocuments(
+            DATABASE_ID!,
+            CHAT_COLLECTION_ID!,
+            [
+                Query.or([
+                    Query.and([Query.equal("firstUser", userA), Query.equal("secondUser", userB)]),
+                    Query.and([Query.equal("firstUser", userB), Query.equal("secondUser", userA)]),
+                ])
+            ]
+        );
+
+        if (existing.total > 0) {
+            return parseStringify({ chatId: existing.documents[0].$id });
+        }
+
+        // Create new chat if not found
+        const newChat = await database.createDocument(
+            DATABASE_ID!,
+            CHAT_COLLECTION_ID!,
+            ID.unique(),
+            {
+                firstUser: userA,
+                secondUser: userB,
+                lastMessage: ""
+            }
+        );
+
+        return parseStringify({ chatId: newChat.$id });
+    } catch (error) {
+
+        console.error("❌ Error in /api/chat/start:", error);
+        return { error: "Failed to create or fetch chat." , status: 500 };
+
+    }
+}
+
 
 // This function is Done !
 export const getUserInfo = async ({ userId }: getUserInfoProps) => {

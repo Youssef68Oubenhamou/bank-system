@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono , IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
+import { SocketProvider } from "@/components/SocketProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,13 +31,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${ibmPlexSerif.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body
+              className={`${geistSans.variable} ${geistMono.variable} ${ibmPlexSerif.variable} antialiased`}
+            >
+                <SocketProvider>
+                    {children}
+                </SocketProvider>
+            </body>
+        </html>
+    );
 }

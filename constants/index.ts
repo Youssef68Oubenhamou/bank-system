@@ -19,6 +19,11 @@ export const sidebarLinks = [
     route: "/payment-transfer",
     label: "Transfer Funds",
   },
+  {
+    imgURL: "/icons/chat.png",
+    route: "/chat-room",
+    label: "Chat Room"
+  }
 ];
 
 // good_user / good_password - Bank of America
@@ -64,15 +69,15 @@ export const topCategoryStyles = {
     icon: "/icons/monitor.svg",
   },
   Travel: {
-    bg: "bg-success-25",
-    circleBg: "bg-success-100",
+    bg: "bg-green-500",
+    circleBg: "bg-green-400",
     text: {
-      main: "text-success-900",
-      count: "text-success-700",
+      main: "text-green-900",
+      count: "text-green-700",
     },
     progress: {
-      bg: "bg-success-100",
-      indicator: "bg-success-700",
+      bg: "bg-green-100",
+      indicator: "bg-green-700",
     },
     icon: "/icons/coins.svg",
   },

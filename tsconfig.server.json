@@ -1,0 +1,11 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "noEmit": false,            // Allow TypeScript to transpile
+        "module": "commonjs",       // Required for Node.js + Socket.IO
+        "moduleResolution": "node",
+        "outDir": "dist-server",    // (Optional) output folder
+        "esModuleInterop": true
+    },
+    "include": ["server.ts"]
+}
