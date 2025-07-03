@@ -32,6 +32,7 @@ const formSchema = z.object({
   amount: z.string().min(4, "Amount is too short"),
   senderBank: z.string().min(4, "Please select a valid bank account"),
   sharableId: z.string().min(8, "Please select a valid sharable Id"),
+  isTest: z.boolean().optional(),
 });
 
 const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
@@ -40,12 +41,13 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-        name: "",
-        email: "",
-        amount: "",
-        senderBank: "",
-        sharableId: "",
+            defaultValues: {
+            name: "",
+            email: "",
+            amount: "",
+            senderBank: "",
+            sharableId: "",
+            isTest: false,
         },
     });
 
@@ -59,6 +61,14 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
         });
         const senderBank = await getBank({ documentId: data.senderBank });
 
+        const amount = parseFloat(data.amount);
+
+        // Check if amount is less than or equal to sender balance
+        if (amount > senderBank.balance) {
+        setIsLoading(false);
+            return alert("Insufficient funds: Transfer amount exceeds available balance.");
+        }
+
         const transferParams = {
             sourceFundingSourceUrl: senderBank.fundingSourceUrl,
             destinationFundingSourceUrl: receiverBank.fundingSourceUrl,
@@ -70,13 +80,14 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
         // create transfer transaction
         if (transfer) {
             const transaction = {
-            name: data.name,
-            amount: data.amount,
-            senderId: senderBank.userId.$id,
-            senderBankId: senderBank.$id,
-            receiverId: receiverBank.userId.$id,
-            receiverBankId: receiverBank.$id,
-            email: data.email,
+                name: data.name,
+                amount: data.amount,
+                senderId: senderBank.userId.$id,
+                senderBankId: senderBank.$id,
+                receiverId: receiverBank.userId.$id,
+                receiverBankId: receiverBank.$id,
+                email: data.email,
+                isTest: data.isTest,
             };
 
             const newTransaction = await createTransaction(transaction);
@@ -165,27 +176,27 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
             </div>
 
             <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-                <FormItem className="border-t border-gray-200">
-                <div className="payment-transfer_form-item py-5">
-                    <FormLabel className="text-14 w-full max-w-[280px] font-medium text-gray-700">
-                    Recipient&apos;s Email Address
-                    </FormLabel>
-                    <div className="flex w-full flex-col">
-                    <FormControl>
-                        <Input
-                        placeholder="ex: johndoe@gmail.com"
-                        className="input-class"
-                        {...field}
-                        />
-                    </FormControl>
-                    <FormMessage className="text-12 text-red-500" />
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                    <FormItem className="border-t border-gray-200">
+                    <div className="payment-transfer_form-item py-5">
+                        <FormLabel className="text-14 w-full max-w-[280px] font-medium text-gray-700">
+                        Recipient&apos;s Email Address
+                        </FormLabel>
+                        <div className="flex w-full flex-col">
+                        <FormControl>
+                            <Input
+                            placeholder="ex: johndoe@gmail.com"
+                            className="input-class"
+                            {...field}
+                            />
+                        </FormControl>
+                        <FormMessage className="text-12 text-red-500" />
+                        </div>
                     </div>
-                </div>
-                </FormItem>
-            )}
+                    </FormItem>
+                )}
             />
 
             <FormField
@@ -234,6 +245,28 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                 </div>
                 </FormItem>
             )}
+            />
+            <FormField
+                control={form.control}
+                name="isTest"
+                render={({ field }) => (
+                    <FormItem className="border-t border-gray-200">
+                    <div className="flex items-center gap-2 py-5">
+                        <FormControl>
+                        <input
+                            type="checkbox"
+                            id="isTest"
+                            className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                            checked={field.value}
+                            onChange={field.onChange}
+                        />
+                        </FormControl>
+                        <FormLabel htmlFor="isTest" className="text-14 text-gray-700">
+                        Simulate success instantly (Test mode)
+                        </FormLabel>
+                    </div>
+                    </FormItem>
+                )}
             />
 
             <div className="payment-transfer_btn-box">

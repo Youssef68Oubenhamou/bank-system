@@ -16,19 +16,6 @@ const RecentTransactions = ({
 
     const indexOfLastTransaction = page * rowsPerPage;
     const indexOfFirstTransaction = indexOfLastTransaction - rowsPerPage;
-    // let transactionSlices = [];
-    // let aSlice = [];
-    // for (let i = 0; i < totalPages; i++) {
-
-    //     for (let j = 0; j < rowsPerPage; j++) {
-
-    //         aSlice.push(transactions[j]);
-
-    //     }
-    //     transactionSlices.push(aSlice);
-    //     aSlice = [];
-
-    // }
 
     const currentTransactions = transactions.slice(
         indexOfFirstTransaction, indexOfLastTransaction

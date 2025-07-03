@@ -1,8 +1,11 @@
 import {withSentryConfig} from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
+const isDev = process.env.NODE_ENV !== "production";
+
 const nextConfig: NextConfig = {
-  /* config options here */
+    /* config options here */
+    reactStrictMode: !isDev,
 };
 
 export default withSentryConfig(nextConfig, {

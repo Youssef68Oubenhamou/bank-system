@@ -83,9 +83,11 @@ declare type Transaction = {
   receiverBankId: string;
 };
 
+// I added balance attribute !
 declare type Bank = {
   $id: string;
   accountId: string;
+  balance: number;
   bankId: string;
   accessToken: string;
   fundingSourceUrl: string;
@@ -289,6 +291,7 @@ declare interface CreateTransactionProps {
   receiverId: string;
   receiverBankId: string;
   email: string;
+  isTest?: boolean;
 }
 
 declare interface getTransactionsByBankIdProps {
@@ -309,6 +312,7 @@ declare interface exchangePublicTokenProps {
   user: User;
 }
 
+// I added balance attribute in this interface !
 declare interface createBankAccountProps {
   accessToken: string;
   userId: string;
@@ -316,6 +320,7 @@ declare interface createBankAccountProps {
   bankId: string;
   fundingSourceUrl: string;
   shareableId: string;
+  balance: number;
 }
 
 declare interface getBanksProps {

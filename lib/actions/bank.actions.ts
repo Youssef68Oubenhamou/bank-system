@@ -34,10 +34,11 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
                 institutionId: accountsResponse.data.item.institution_id!,
             });
 
+            // I changed availableBalance and currentBalance !
             const account = {
                 id: accountData.account_id,
-                availableBalance: accountData.balances.available!,
-                currentBalance: accountData.balances.current!,
+                availableBalance: bank.balance ?? accountData.balances.available!,
+                currentBalance: bank.balance ?? accountData.balances.current!,
                 institutionId: institution.institution_id,
                 name: accountData.name,
                 officialName: accountData.official_name,
@@ -108,8 +109,8 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
 
         const account = {
             id: accountData.account_id,
-            availableBalance: accountData.balances.available!,
-            currentBalance: accountData.balances.current!,
+            availableBalance: bank.balance ?? accountData.balances.available!,
+            currentBalance: bank.balance ?? accountData.balances.current! ,
             institutionId: institution.institution_id,
             name: accountData.name,
             officialName: accountData.official_name,
