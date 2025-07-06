@@ -11,6 +11,37 @@ const {
     APPWRITE_BANK_COLLECTION_ID: BANK_COLLECTION_ID
 } = process.env;
 
+export const getLatestTransaction = async ({ userId }: { userId: string }) => {
+
+    const { database } = await createAdminClient();
+
+    const res = await database.listDocuments(
+        DATABASE_ID!,
+        TRANSACTION_COLLECTION_ID!,
+        [
+            Query.or([
+                Query.equal('senderId', [userId]),
+                Query.equal('receiverId', [userId])
+            ]),
+            Query.orderDesc('$createdAt'),
+            Query.limit(1),
+        ]
+    );
+
+    const tx = res.documents[0];
+    if (!tx) return null;
+
+    const isSender = tx.senderId === userId;
+
+    return {
+        name: tx.name ?? (isSender ? tx.receiverId : tx.senderId),
+        date: tx.$createdAt,
+        type: isSender ? 'sent' : 'received',
+        amount: tx.amount,
+        currency: tx.currency || 'USD',
+    };
+};
+
 export const createTransaction = async (transaction: CreateTransactionProps) => {
     try {
         const { database } = await createAdminClient();

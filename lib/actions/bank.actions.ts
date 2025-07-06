@@ -14,6 +14,14 @@ import { parseStringify } from "../utils";
 
 import { getTransactionsByBankId } from "./transaction.actions";
 import { getBanks, getBank } from "./user.actions";
+import { createAdminClient } from "../appwrite";
+import { Query } from "node-appwrite";
+
+const {
+    APPWRITE_DATABASE_ID: DATABASE_ID,
+    APPWRITE_TRANSACTION_COLLECTION_ID: TRANSACTION_COLLECTION_ID,
+    APPWRITE_BANK_COLLECTION_ID: BANK_COLLECTION_ID
+} = process.env;
 
 // Get multiple bank accounts
 export const getAccounts = async ({ userId }: getAccountsProps) => {
@@ -133,6 +141,23 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
     } catch (error) {
         console.error("An error occurred while getting the account:", error);
     }
+};
+
+export const getBanko = async ({ userId }: { userId: string }) => {
+
+    const { database } = await createAdminClient();
+
+    const res = await database.listDocuments(
+        DATABASE_ID!,
+        BANK_COLLECTION_ID!,
+        [Query.equal('userId', [userId])]
+    );
+
+    return res.documents.map(bank => ({
+        name: bank.name || bank.bankId,
+        institution: bank.institutionId,
+        mask: bank.mask,
+    }));
 };
 
 // Get bank info

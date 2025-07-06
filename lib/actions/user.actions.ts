@@ -263,6 +263,24 @@ export const createBankAccount = async ({
     }
 }
 
+export const getBalance = async ({ userId }: { userId: string }) => {
+
+    const { database } = await createAdminClient();
+
+    const res = await database.listDocuments(
+        DATABASE_ID!,
+        BANK_COLLECTION_ID!,
+        [Query.equal('userId', [userId])]
+    );
+
+    const total = res.documents.reduce((sum, bank) => {
+        const bal = bank.balance ?? 0;
+        return sum + bal;
+    }, 0);
+
+    return total.toFixed(2);
+};
+
 // This function is done !
 export const exchangePublicToken = async ({
     publicToken,

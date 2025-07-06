@@ -23,6 +23,11 @@ export const sidebarLinks = [
     imgURL: "/icons/chat.png",
     route: "/chat-room",
     label: "Chat Room"
+  },
+  {
+    imgURL: "/icons/ai-analytics.png",
+    route: "/ai-service",
+    label: "AI Analytics"
   }
 ];
 
