@@ -2,6 +2,7 @@
 
 import { useEffect, useState , useRef } from "react";
 import { useSocket } from "@/context/SocketContext";
+import PuterChatDialog from "./PuterChatDialog";
 
 export default function Chat({ currentUserId, chatId }: { currentUserId: string, chatId: string }) {
     const socket = useSocket();
@@ -79,12 +80,13 @@ export default function Chat({ currentUserId, chatId }: { currentUserId: string,
                         }`}
                     >
                         <div
-                            className={`px-4 py-2 rounded-2xl text-sm break-words whitespace-pre-wrap max-w-full w-full sm:w-[60%] ${
-                            isSender
-                            ? "bg-green-500 text-white rounded-br-none self-end"
-                            : "bg-white text-gray-900 border rounded-bl-none self-start"
+                            className={`px-4 py-2 rounded-2xl text-sm break-words whitespace-pre-wrap w-[400px] ${
+                                isSender
+                                ? "bg-green-500 text-white rounded-br-none self-end"
+                                : "bg-white text-gray-900 border rounded-bl-none self-start"
                             }`}
                         >
+
                             <p className="font-semibold text-xs mb-1">
                                 {isSender ? "You" : msg.senderName || "Friend"}
                             </p>
@@ -138,6 +140,9 @@ export default function Chat({ currentUserId, chatId }: { currentUserId: string,
                     </button>
                 </div>
             </div>
+
+            <PuterChatDialog currentUserId={currentUserId} />
+
         </div>
     );
 

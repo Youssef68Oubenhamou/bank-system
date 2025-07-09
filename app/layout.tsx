@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono , IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
 import { SocketProvider } from "@/components/SocketProvider";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +24,7 @@ const ibmPlexSerif = IBM_Plex_Serif({
 
 export const metadata: Metadata = {
   title: "YouX Bank",
-  description: "YouX Bank is a modern Bank Web Application that can let perform complex operations.",
+  description: "YouX Bank is a modern Bank Web Application that can let perform complex operations.description: AI chat with Puter",
 };
 
 export default function RootLayout({
@@ -33,6 +34,12 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
+            <head>
+              <Script
+                src="https://js.puter.com/v2/"
+                strategy="afterInteractive"
+              />
+            </head>
             <body
               className={`${geistSans.variable} ${geistMono.variable} ${ibmPlexSerif.variable} antialiased`}
             >

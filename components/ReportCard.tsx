@@ -73,8 +73,8 @@ export default function ReportCard({ report }: { report: any }) {
                 <div className="bg-gray-50 p-4 rounded-xl shadow-sm border border-gray-200">
                     <h4 className="text-sm font-semibold text-gray-600 mb-2">🏦 Bank Breakdown</h4>
                     <div className="space-y-2 text-base text-gray-800">
-                    <p><span className="font-medium">Plaid Checking:</span> ${report.fType}</p>
-                    <p><span className="font-medium">Plaid Saving:</span> ${report.sType}</p>
+                    {report.fType && <p><span className="font-medium">Plaid Checking:</span> ${report.fType}</p>}
+                    {report.sType && <p><span className="font-medium">Plaid Saving:</span> ${report.sType}</p>}
                     </div>
                 </div>
             </div>
