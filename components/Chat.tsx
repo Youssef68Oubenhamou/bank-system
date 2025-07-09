@@ -79,16 +79,16 @@ export default function Chat({ currentUserId, chatId }: { currentUserId: string,
                         }`}
                     >
                         <div
-                        className={`px-4 py-2 rounded-2xl text-sm break-words whitespace-pre-wrap max-w-[80%] ${
+                            className={`px-4 py-2 rounded-2xl text-sm break-words whitespace-pre-wrap max-w-full w-full sm:w-[60%] ${
                             isSender
-                            ? "bg-green-500 text-white rounded-br-none"
-                            : "bg-white text-gray-900 border rounded-bl-none"
-                        }`}
+                            ? "bg-green-500 text-white rounded-br-none self-end"
+                            : "bg-white text-gray-900 border rounded-bl-none self-start"
+                            }`}
                         >
-                        <p className="font-semibold text-xs mb-1">
-                            {isSender ? "You" : msg.senderName || "Friend"}
-                        </p>
-                        <p>{msg.content}</p>
+                            <p className="font-semibold text-xs mb-1">
+                                {isSender ? "You" : msg.senderName || "Friend"}
+                            </p>
+                            <p>{msg.content}</p>
                         </div>
                         <span className="text-xs text-gray-500 mt-1">{time}</span>
                     </div>

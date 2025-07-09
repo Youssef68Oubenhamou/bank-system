@@ -27,7 +27,7 @@ const ChatRoom = async ({ params }: { params: { chatId: string } }) => {
                 $id: doc.$id,
                 name: `${doc.firstName} ${doc.lastName}`,
             }))} />
-            <Chat currentUserId={currentUser.$id} chatId={params.chatId} />
+            {/* <Chat currentUserId={currentUser.$id} chatId={params.chatId} /> */}
         </section>
     )
 }

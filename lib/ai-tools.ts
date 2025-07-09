@@ -2,10 +2,19 @@ import { getLatestTransaction } from './actions/transaction.actions';
 import { getTopRecipient } from './actions/recipient.actions';
 import { getBanko } from './actions/bank.actions';
 import { getBalance } from './actions/user.actions';
+import { getUserReport } from './actions/report.actions';
 
-export type ToolName = 'getLastTransaction' | 'getTopRecipient' | 'getUserBanks' | 'getBalance';
+export type ToolName =  'getUserReport' | 'getLastTransaction' | 'getTopRecipient' | 'getUserBanks' | 'getBalance';
 
 export const tools: Record<ToolName, (userId: string) => Promise<string>> = {
+    getUserReport: async (userId: string) => {
+        const report = await getUserReport({ userId });
+
+        return `Here is your financial report:\n
+        - Total Sent: $${report.totalSent}
+        - Total Received: $${report.totalReceived}
+        - Current Balance: $${report.balance}`;
+    },
     getLastTransaction: async (userId: string) => {
         const tx = await getLatestTransaction({ userId });
 
