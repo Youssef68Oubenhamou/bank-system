@@ -62,6 +62,8 @@ export default function Chat({ currentUserId, chatId }: { currentUserId: string,
         setMessage("");
     };
 
+    const friendId = messages.find(msg => msg.senderId !== currentUserId)?.senderId;
+
     return (
         <div className="flex flex-col h-[calc(100vh-4rem)] mt-8 max-w-2xl mx-auto border rounded-lg shadow-md bg-white overflow-hidden">
             <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-gray-100">
@@ -141,7 +143,7 @@ export default function Chat({ currentUserId, chatId }: { currentUserId: string,
                 </div>
             </div>
 
-            <PuterChatDialog currentUserId={currentUserId} />
+            <PuterChatDialog currentUserId={currentUserId} friendId={friendId} />
 
         </div>
     );

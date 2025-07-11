@@ -1,4 +1,3 @@
-// app/api/chat-tools/route.ts
 import { NextResponse } from "next/server"
 import { createAdminClient } from "@/lib/appwrite"
 import { Query } from "node-appwrite"
@@ -18,31 +17,74 @@ export async function POST(req: Request) {
         const DB_ID = process.env.APPWRITE_DATABASE_ID!
         const COL_ID = process.env.APPWRITE_MESSAGE_COLLECTION_ID!
 
+        const {  
+
+            APPWRITE_DATABASE_ID : DATABASE_ID,
+            APPWRITE_USER_COLLECTION_ID : USER_COLLECTION_ID,
+            APPWRITE_MESSAGE_COLLECTION_ID : MESSAGE_COLLECTION_ID,
+            APPWRITE_CHAT_COLLECTION_ID : CHAT_COLLECTION_ID,
+
+        } = process.env ;
+
         switch (tool) {
             case "last-message": {
                 const res = await database.listDocuments(DB_ID, COL_ID, [
-                Query.equal("senderId", userId),
-                Query.orderDesc("timestamp"),
-                Query.limit(1)
+                    Query.equal("senderId", userId),
+                    Query.orderDesc("timestamp"),
+                    Query.limit(1)
                 ])
                 return NextResponse.json({ result: res.documents[0]?.content || "No message found." })
             }
 
             case "most-messaged": {
-                const res = await database.listDocuments(DB_ID, COL_ID, [
-                Query.equal("senderId", userId),
-                Query.limit(100)
-                ])
+                console.log("Hello World !");
 
-                const freqMap: Record<string, number> = {}
+                const res = await database.listDocuments(
+                    DATABASE_ID!,
+                    MESSAGE_COLLECTION_ID!,
+                    [Query.equal("senderId", userId), Query.limit(100)]
+                );
+
+                const freqMap: Record<string, number> = {};
+
                 for (const msg of res.documents) {
-                freqMap[msg.receiverId] = (freqMap[msg.receiverId] || 0) + 1
+                    const chat = msg.chatId;
+
+                    if (chat && chat.firstUser && chat.secondUser) {
+                        const receiverId = chat.firstUser === userId ? chat.secondUser : chat.firstUser;
+
+                        if (receiverId) {
+                            freqMap[receiverId] = (freqMap[receiverId] || 0) + 1;
+                        }
+                    }
                 }
 
-                const top = Object.entries(freqMap).sort((a, b) => b[1] - a[1])[0]
+                const top = Object.entries(freqMap).sort((a, b) => b[1] - a[1])[0];
+
+                if (!top) {
+                    return NextResponse.json({ result: "No contacts found." });
+                }
+
+                const receiverId = top[0];
+                const count = top[1];
+
+                let receiverName = "Unknown user";
+                try {
+                    console.log("Fetching user:", receiverId);
+
+                    const userDoc = await database.getDocument(
+                        DATABASE_ID!,
+                        USER_COLLECTION_ID!,
+                        receiverId
+                    );
+                    receiverName = `${userDoc?.firstName} ${userDoc?.lastName}` || receiverName;
+                } catch (err) {
+                    console.warn("❌ Failed to get user doc:", err);
+                }
+
                 return NextResponse.json({
-                result: top ? `User ${top[0]} (${top[1]} messages)` : "No contacts found."
-                })
+                    result: `${receiverName} (${count} messages)`
+                });
             }
 
             case "message-count": {
@@ -59,16 +101,55 @@ export async function POST(req: Request) {
             }
 
             case "last-message-from-friend": {
-                if (!friendId) return NextResponse.json({ result: "Friend ID is required" })
 
-                const res = await database.listDocuments(DB_ID, COL_ID, [
+                if (!friendId) return NextResponse.json({ result: "Friend ID is required" });
+
+                const res = await database.listDocuments(DATABASE_ID!, MESSAGE_COLLECTION_ID!, [
                     Query.equal("senderId", friendId),
-                    Query.equal("receiverId", userId),
+                    Query.limit(100),
+                    Query.orderDesc("timestamp"),
+                ]);
+
+                const filtered = res.documents.find(doc => {
+                    const chat = doc.chatId;
+                    return chat && (
+                        (chat.firstUser === friendId && chat.secondUser === userId) ||
+                        (chat.firstUser === userId && chat.secondUser === friendId)
+                    );
+                });
+
+                return NextResponse.json({
+                    result: filtered?.content || "No message found from friend."
+                });
+            }
+
+            case "summarize-chat": {
+                const res = await database.listDocuments(DB_ID, COL_ID, [
+                    Query.equal("senderId", userId),
+                    Query.limit(20),
+                    Query.orderDesc("timestamp")
+                ])
+                const conversation = res.documents.map(doc => doc.content).reverse().join("\n")
+                return NextResponse.json({ result: `Summary: ${conversation}` }) // You can improve this later with AI
+            }
+
+            case "search-message": {
+                const res = await database.listDocuments(DB_ID, COL_ID, [
+                    Query.equal("senderId", userId),
+                    Query.limit(100)
+                ])
+                const found = res.documents.find(doc => doc.content.toLowerCase().includes(friendId?.toLowerCase() || ""))
+                return NextResponse.json({ result: found?.content || "No message matched your search." })
+            }
+
+            case "message-timestamp": {
+                const res = await database.listDocuments(DB_ID, COL_ID, [
+                    Query.equal("senderId", userId),
                     Query.orderDesc("timestamp"),
                     Query.limit(1)
                 ])
-
-                return NextResponse.json({ result: res.documents[0]?.content || "No message found from friend." })
+                const time = res.documents[0]?.timestamp
+                return NextResponse.json({ result: time ? `You last messaged at ${new Date(time).toLocaleString()}` : "No message found." })
             }
 
             default:

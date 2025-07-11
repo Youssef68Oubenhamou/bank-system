@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTitle , DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { BotIcon } from "lucide-react"
 
@@ -38,6 +38,7 @@ export default function AiChatDialog() {
                 </Button>
             </DialogTrigger>
             <DialogContent className="w-[90vw] max-w-md">
+                <DialogTitle></DialogTitle>
                 <div className="h-[400px] overflow-y-auto p-2 space-y-2">
                 {messages.map((msg, idx) => (
                     <div key={idx} className={`text-sm p-2 rounded ${msg.role === "user" ? "bg-green-100 text-right ml-auto w-fit" : "bg-gray-200 text-left mr-auto w-fit"}`}>

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+// import { Input } from "@/components/ui/input"
 import CustomInput from './CustomInput';
 import { authFormSchema } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
@@ -29,17 +29,31 @@ const AuthForm = ({ type }: { type: string }) => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            email: "",
-            password: ""
-        },
+        defaultValues:
+        type === 'sign-in'
+            ? {
+                email: '',
+                password: ''
+            }
+            :
+            {
+                firstName: '',
+                lastName: '',
+                address1: '',
+                city: '',
+                state: '',
+                postalCode: '',
+                dateOfBirth: '',
+                ssn: '',
+                email: '',
+                password: ''
+            }
     })
    
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
       setIsLoading(true);
 
       try {
-        // Sign up with Appwrite & create plaid token
         
         if(type === 'sign-up') {
             const userData = {

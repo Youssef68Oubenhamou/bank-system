@@ -23,18 +23,24 @@ export default function FriendsList({ currentUserId, users }: Props) {
 
     return (
         <div className="w-64 border-r bg-white h-full p-4 overflow-y-auto">
-            <h2 className="font-bold mb-4">Friends</h2>
-            {users
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">Friends</h2>
+
+            <div className="space-y-2">
+                {users
                 .filter((u) => u.$id !== currentUserId.$id)
                 .map((user) => (
-                <button
+                    <button
                     key={user.$id}
                     onClick={() => startChat(user.$id)}
-                    className="block w-full text-left py-2 px-3 rounded hover:bg-gray-100"
-                >
-                    {user.name}
-                </button>
+                    className="flex items-center gap-3 w-full text-left px-3 py-2 rounded-lg bg-white hover:bg-gray-100 transition duration-150 border border-transparent hover:border-gray-300 shadow-sm hover:shadow-md"
+                    >
+                    <div className="flex-shrink-0 w-9 h-9 rounded-full bg-green-100 text-green-700 flex items-center justify-center text-sm font-bold uppercase">
+                        {user.name.charAt(0)}
+                    </div>
+                    <span className="text-sm text-gray-900 truncate">{user.name}</span>
+                    </button>
                 ))}
+            </div>
         </div>
     );
 }

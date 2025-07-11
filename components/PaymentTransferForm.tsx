@@ -55,50 +55,50 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
         setIsLoading(true);
 
         try {
-        const receiverAccountId = decryptId(data.sharableId);
-        const receiverBank = await getBankByAccountId({
-            accountId: receiverAccountId,
-        });
-        const senderBank = await getBank({ documentId: data.senderBank });
+            const receiverAccountId = decryptId(data.sharableId);
+            const receiverBank = await getBankByAccountId({
+                accountId: receiverAccountId,
+            });
+            const senderBank = await getBank({ documentId: data.senderBank });
 
-        const amount = parseFloat(data.amount);
+            const amount = parseFloat(data.amount);
 
-        // Check if amount is less than or equal to sender balance
-        if (amount > senderBank.balance) {
-        setIsLoading(false);
-            return alert("Insufficient funds: Transfer amount exceeds available balance.");
-        }
-
-        const transferParams = {
-            sourceFundingSourceUrl: senderBank.fundingSourceUrl,
-            destinationFundingSourceUrl: receiverBank.fundingSourceUrl,
-            amount: data.amount,
-        };
-        // create transfer
-        const transfer = await createTransfer(transferParams);
-
-        // create transfer transaction
-        if (transfer) {
-            const transaction = {
-                name: data.name,
-                amount: data.amount,
-                senderId: senderBank.userId.$id,
-                senderBankId: senderBank.$id,
-                receiverId: receiverBank.userId.$id,
-                receiverBankId: receiverBank.$id,
-                email: data.email,
-                isTest: data.isTest,
-            };
-
-            const newTransaction = await createTransaction(transaction);
-
-            if (newTransaction) {
-                form.reset();
-                router.push("/");
+            // Check if amount is less than or equal to sender balance
+            if (amount > senderBank.balance) {
+                setIsLoading(false);
+                return alert("Insufficient funds: Transfer amount exceeds available balance.");
             }
-        }
+
+            const transferParams = {
+                sourceFundingSourceUrl: senderBank.fundingSourceUrl,
+                destinationFundingSourceUrl: receiverBank.fundingSourceUrl,
+                amount: data.amount,
+            };
+            // create transfer
+            const transfer = await createTransfer(transferParams);
+
+            // create transfer transaction
+            if (transfer) {
+                const transaction = {
+                    name: data.name,
+                    amount: data.amount,
+                    senderId: senderBank.userId.$id,
+                    senderBankId: senderBank.$id,
+                    receiverId: receiverBank.userId.$id,
+                    receiverBankId: receiverBank.$id,
+                    email: data.email,
+                    isTest: data.isTest,
+                };
+
+                const newTransaction = await createTransaction(transaction);
+
+                if (newTransaction) {
+                    form.reset();
+                    router.push("/");
+                }
+            }
         } catch (error) {
-        console.error("Submitting create transfer request failed: ", error);
+            console.error("Submitting create transfer request failed: ", error);
         }
 
         setIsLoading(false);
