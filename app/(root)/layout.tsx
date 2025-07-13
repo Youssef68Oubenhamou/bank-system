@@ -3,6 +3,7 @@ import Sidebar from "@/components/Sidebar";
 import { getLoggedInUser } from "@/lib/actions/user.actions";
 import Image from "next/image";
 import { redirect } from "next/navigation"
+import { Toaster } from "react-hot-toast";
 
 export default async function RootLayout({
     children,
@@ -34,6 +35,7 @@ export default async function RootLayout({
                         <MobileNav user={loggedIn} />
                     </div>
                 </div>
+                <Toaster position="top-center" reverseOrder={false} />
                 {children}
             </div>
 

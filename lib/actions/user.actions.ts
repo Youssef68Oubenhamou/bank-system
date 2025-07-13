@@ -1,6 +1,6 @@
 "use server"
 
-import { ID, Query } from "node-appwrite";
+import { AppwriteException, ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { cookies } from "next/headers";
 import { encryptId , extractCustomerIdFromUrl , parseStringify } from "../utils";
@@ -103,7 +103,21 @@ export const signIn = async ({ email , password }: signInProps) => {
     
     } catch (error) {
 
-        console.error("Error" , error);
+        const err = error as AppwriteException;
+
+        if (err.code === 401) {
+
+            if (err.message.includes("Invalid credentials")) {
+                return { error: "Incorrect email or password." };
+            }
+        }
+
+        if (err.code === 404) {
+            return { error: "User not found." };
+        }
+
+        console.error("SignIn Error:", err);
+        return { error: "Something went wrong. Please try again." };
 
     }
 
@@ -171,7 +185,14 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
             
     } catch (error) {
 
-        console.error("Error" , error);
+        const err = error as AppwriteException;
+
+        if (err.code === 409 && err.message.includes("already exists")) {
+            return { error: "This email is not valid. Please use a different one." };
+        }
+
+        console.error("SignUp Error:", err);
+        return { error: "Something went wrong during sign-up. Please try again." };
 
     }
 

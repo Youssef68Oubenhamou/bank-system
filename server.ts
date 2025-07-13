@@ -39,18 +39,17 @@ app.prepare().then(() => {
     io.on("connection", (socket) => {
         console.log("✅ Socket connected:", socket.id);
 
-        // Listen to message sent from frontend
         socket.on("send-message", async (msg) => {
             try {
-                // Save message to Appwrite
+
                 const saved = await databases.createDocument(
-                    DATABASE_ID!,           // databaseId
-                    MESSAGE_COLLECTION_ID!, // collectionId
+                    DATABASE_ID!,
+                    MESSAGE_COLLECTION_ID!,
                     ID.unique(),
-                    msg              // Must include: chatId, senderId, content, timestamp
+                    msg
                 );
 
-                // Broadcast to all clients except the sender
+                
                 socket.broadcast.emit("receive-message", saved);
             } catch (err) {
                 console.error("❌ Error saving message to Appwrite:", err);

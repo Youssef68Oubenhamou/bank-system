@@ -3,6 +3,7 @@ import { Geist, Geist_Mono , IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
 import { SocketProvider } from "@/components/SocketProvider";
 import Script from "next/script";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

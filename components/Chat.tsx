@@ -11,6 +11,7 @@ export default function Chat({ currentUserId, chatId }: { currentUserId: string,
     const bottomRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
+        if (!chatId) return;
         const fetchMessages = async () => {
             try {
                 const res = await fetch(`/api/messages?chatId=${chatId}`);
@@ -48,7 +49,7 @@ export default function Chat({ currentUserId, chatId }: { currentUserId: string,
     }, [messages]);
 
     const handleSend = () => {
-        if (!message.trim()) return;
+        if (!message.trim() || !socket?.connected) return;
 
         const msgData = {
             chatId,

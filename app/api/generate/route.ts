@@ -24,7 +24,7 @@ export async function POST(request: Request) {
             {
             role: "system",
             content: `
-                You are a smart assistant for YouX Bank. You must decide if the user's prompt requires calling a function.
+                You are a smart assistant for YouPay Bank. You must decide if the user's prompt requires calling a function.
                 If so, respond only with: ToolCall: <functionName>.
                 Available tools: getLastTransaction, getTopRecipient, getUserBanks, getBalance, getUserReport.
                 If the prompt does not match a tool, just answer normally.

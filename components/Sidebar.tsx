@@ -17,13 +17,14 @@ const Sidebar = ({ user }: SiderbarProps) => {
             <nav className="flex flex-col gap-4">
                 <Link href="/" className="mb-12 cursor-pointer flex items-center gap-2">
                     <Image
-                        src="/icons/mastercard.svg"
-                        width={34}
-                        height={34}
-                        alt="YouX Logo"
-                        className="size-[24px] max-xl:size-14"
+                        src="/icons/YouPay.jpg"
+                        width={170}
+                        height={14}
+                        alt="YouPay Logo"
+                        // className="size-[24px] max-xl:size-14"
+                        className='rounded-full'
                     />
-                    <h1 className="sidebar-logo">YouX Bank</h1>
+                    {/* <h1 className="sidebar-logo">YouX Bank</h1> */}
                 </Link>
                 {
 

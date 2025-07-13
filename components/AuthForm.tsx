@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
 } from "@/components/ui/form"
-// import { Input } from "@/components/ui/input"
 import CustomInput from './CustomInput';
 import { authFormSchema } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
@@ -19,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import { signIn, signUp } from '@/lib/actions/user.actions';
 import { PlaidApi } from 'plaid';
 import PlaidLink from './PlaidLink';
+import { toast } from 'react-hot-toast';
 
 const AuthForm = ({ type }: { type: string }) => {
     const router = useRouter();
@@ -51,44 +51,53 @@ const AuthForm = ({ type }: { type: string }) => {
     })
    
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-      setIsLoading(true);
+        setIsLoading(true);
 
-      try {
+        try {
         
-        if(type === 'sign-up') {
-            const userData = {
-                firstName: data.firstName!,
-                lastName: data.lastName!,
-                address1: data.address1!,
-                city: data.city!,
-                state: data.state!,
-                postalCode: data.postalCode!,
-                dateOfBirth: data.dateOfBirth!,
-                ssn: data.ssn!,
-                email: data.email,
-                password: data.password
+            if(type === 'sign-up') {
+                const userData = {
+                    firstName: data.firstName!,
+                    lastName: data.lastName!,
+                    address1: data.address1!,
+                    city: data.city!,
+                    state: data.state!,
+                    postalCode: data.postalCode!,
+                    dateOfBirth: data.dateOfBirth!,
+                    ssn: data.ssn!,
+                    email: data.email,
+                    password: data.password
+                }
+
+                const newUser = await signUp(userData);
+
+                if (newUser?.error) {
+                    toast.error(newUser.error);
+                } else {
+                    toast.success("Account created successfully!");
+                    setUser(newUser);
+                }
             }
 
-            const newUser = await signUp(userData);
+            if(type === 'sign-in') {
+                const response = await signIn({
+                    email: data.email,
+                    password: data.password,
+                })
 
-            setUser(newUser);
-        }
-
-        if(type === 'sign-in') {
-            const response = await signIn({
-                email: data.email,
-                password: data.password,
-            })
-
-            console.log(response);
-
-            if(response) router.push('/');
-        }
-      } catch (error) {
+                if (response?.error) {
+                    toast.error(response.error);
+                } else {
+                    router.push('/');
+                    toast.success("Welcome back!");
+                }
+            }
+        } catch (error) {
             console.log(error);
-      } finally {
+            toast.error("Something went wrong. Please try again.");
+        } finally {
             setIsLoading(false);
-      }
+        }
     }
 
     return (
@@ -96,12 +105,12 @@ const AuthForm = ({ type }: { type: string }) => {
             <header className='flex flex-col gap-5 md:gap-8'>
                 <Link href="/" className="cursor-pointer flex items-center gap-1">
                     <Image 
-                        src="/icons/mastercard.svg"
-                        width={34}
+                        src="/icons/YouPay.jpg"
+                        width={180}
                         height={34}
-                        alt="YouX Bank Logo"
+                        alt="YouPay Bank Logo"
+                        className='rounded-full'
                     />
-                    <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">YouX Bank</h1>
                 </Link>
 
                 <div className="flex flex-col gap-1 md:gap-3">

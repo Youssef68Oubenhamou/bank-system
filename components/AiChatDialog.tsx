@@ -42,7 +42,7 @@ export default function AiChatDialog() {
                 <div className="h-[400px] overflow-y-auto p-2 space-y-2">
                 {messages.map((msg, idx) => (
                     <div key={idx} className={`text-sm p-2 rounded ${msg.role === "user" ? "bg-green-100 text-right ml-auto w-fit" : "bg-gray-200 text-left mr-auto w-fit"}`}>
-                    {msg.content}
+                        {msg.content}
                     </div>
                 ))}
                 </div>
