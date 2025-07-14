@@ -39,7 +39,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ---
 
-The stack used in this project is : Next JS , MongoDB , appwrite...
+The stack used in this project is : Next JS , TypeScript , appwrite , Dwolla , Plaid , Shadcn , Tailwind CSS , Groq , Puter.js
 
 ---
 
