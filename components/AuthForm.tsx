@@ -105,12 +105,13 @@ const AuthForm = ({ type }: { type: string }) => {
             <header className='flex flex-col gap-5 md:gap-8'>
                 <Link href="/" className="cursor-pointer flex items-center gap-1">
                     <Image 
-                        src="/icons/YouPay.jpg"
-                        width={180}
+                        src="/icons/YP_icon.png"
+                        width={100}
                         height={34}
                         alt="YouPay Bank Logo"
                         className='rounded-full'
                     />
+                    <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">YouPay</h1>
                 </Link>
 
                 <div className="flex flex-col gap-1 md:gap-3">

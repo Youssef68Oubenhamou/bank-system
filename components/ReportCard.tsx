@@ -14,12 +14,20 @@ Chart.register(BarElement, CategoryScale, LinearScale, ArcElement, Tooltip, Lege
 
 export default function ReportCard({ report }: { report: any }) {
     const handleDownload = () => {
-        const element = document.getElementById('report');
-        if (element) {
-        import('html2pdf.js').then((module) => {
-            const html2pdf = module.default;
-            html2pdf().from(element).save('YouX_Financial_Report.pdf');
-        });
+    const element = document.getElementById('report');
+    const downloadBtn = element?.querySelector('button');
+        if (element && downloadBtn) {
+            downloadBtn.style.display = 'none';
+            import('html2pdf.js').then((module) => {
+                const html2pdf = module.default;
+                html2pdf().from(element).save('YouPay_Financial_Report.pdf')
+                .then(() => {
+                    downloadBtn.style.display = 'inline-block';
+                })
+                .catch(() => {
+                    downloadBtn.style.display = 'inline-block';
+                });
+            });
         }
     };
 

@@ -24,8 +24,8 @@ const ibmPlexSerif = IBM_Plex_Serif({
 })
 
 export const metadata: Metadata = {
-  title: "YouX Bank",
-  description: "YouX Bank is a modern Bank Web Application that can let perform complex operations.description: AI chat with Puter",
+  title: "YouPay Bank",
+  description: "YouPay Bank is a modern Bank Web Application that can let perform complex operations.description: AI chat with Puter",
 };
 
 export default function RootLayout({
